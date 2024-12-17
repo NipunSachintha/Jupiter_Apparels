@@ -1,44 +1,88 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { logout } from "../../redux/features/userSlice";
+import { employeeMenu, adminMenu, hrManagerMenu } from "../../Data/data";
+import { useState } from "react";
 import "./home.css";
-import Header from '../../components/header';
 
 const Home = () => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  // Get user data from Redux store
+  const user = useSelector((state) => state.user);
+  const [role, setRole] = useState("");
+
+  // Logout handler
+  const handleLogout = () => {
+    dispatch(logout());
+    navigate("/login"); // Redirect to login page
+  };
+
+  // Dynamic Menu
+  let menu;
+  if (role === "Admin User") menu = adminMenu;
+  else if (role === "HR Manager") menu = hrManagerMenu;
+  else if (role === "Employee") menu = employeeMenu;
+
+  useEffect(() => {
+    if (!user) {
+      navigate("/login"); // Redirect if user not logged in
+    }
+    const userRole = localStorage.getItem("userRole");
+    setRole(userRole);
+  }, [user, navigate]);
+
   return (
     <div className="container">
-      {/* Header */}
+      {/* Dynamic Header */}
       <header className="header">
-        <div className="logo">B</div>
-        <nav className="nav-links">
-          <a href="#">Customize Leave Allowances</a>
-          <a href="#">Manage Employees</a>
-          <a href="#">Manage Users</a>
-          <a href="#">Manage Custom Fields</a>
-          <a href="#">Edit Table Attributes</a>
-          <a href="#">Profile</a>
-          <button className="logout-btn">Log out</button>
-        </nav>
+        <h1>Dashboard</h1>
+        {role === "Admin User" && <p>Admin Menu</p>}
+        {role === "Employee" && <p>Employee Menu</p>}
+        {role === "HR Manager" && <p>HR Manager Menu</p>}
+        <button className="logout-btn" onClick={handleLogout}>
+          Logout
+        </button>
       </header>
 
-      {/* Welcome Section */}
-      <section className="welcome">
-        <h1>Welcome to Jupiter Apparels</h1>
-      </section>
+      {/* Navigation Menu */}
+      <aside className="sidebar">
+        <ul className="menu-list">
+          {menu?.map((item) => (
+            <li key={item.name} className="menu-item">
+              <a href={item.path} className="menu-link">
+                <i className={item.icon}></i> {item.name}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </aside>
 
-      {/* Employee Details Section */}
-      <section className="employee-section">
-        <h2>View Employee Details</h2>
-        <div className="employee-card">
-          <div className="employee-image"></div>
-          <div className="employee-info">
-            <h3>Employee Name</h3>
-            <p>
-              Body text for whatever you'd like to say. Add main takeaway points,
-              quotes, anecdotes, or even a very very short story.
-            </p>
-            <button className="info-btn">More Info.</button>
+      {/* Main Content */}
+      <main className="main-content">
+        {/* Welcome Section */}
+        <section className="welcome">
+          <h1>Welcome to Jupiter Apparels</h1>
+        </section>
+
+        {/* Employee Details Section */}
+        <section className="employee-section">
+          <h2>View Employee Details</h2>
+          <div className="employee-card">
+            <div className="employee-image"></div>
+            <div className="employee-info">
+              <h3>Employee Name</h3>
+              <p>
+                Body text for whatever you'd like to say. Add main takeaway
+                points, quotes, anecdotes, or even a very short story.
+              </p>
+              <button className="info-btn">More Info.</button>
+            </div>
           </div>
-        </div>
-      </section>
+        </section>
+      </main>
 
       {/* Footer */}
       <footer className="footer">

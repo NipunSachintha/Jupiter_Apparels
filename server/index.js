@@ -1,13 +1,62 @@
 import express from 'express';
+import dotenv from 'dotenv';
 import mysql from 'mysql2';
+import bcrypt from 'bcryptjs';
+import jwt from 'jsonwebtoken';
+import cors from 'cors';
+
+
+dotenv.config();
 const app = express();
-app.use(express.json()); // helps clients to post data
+app.use(cors());
+app.use(express.json()); // Parse JSON data
 
 const db = mysql.createConnection({
-    host: 'localhost',
-    user: 'nipun',
-    password: '1234',
-    database: 'myhrms'
+    host: process.env.DB_HOST,
+    user: process.env.DB_USER,
+    password: process.env.DB_PASS,
+    database: process.env.DB_NAME,
+});
+
+const SECRET_KEY = process.env.JWT_SECRET || "supersecretkey";
+
+app.post('/login', (req, res) => {
+    const{username, password} = req.body;
+    const sql = 'SELECT * FROM user WHERE User_name = ?';
+
+    db.query(sql, [username], async(err, result) => {
+        if (err) return res.status(500).json({ error: "Database Error" });
+        if (result.length === 0) return res.status(401).json({ error: "Invalid Username or Password" });
+
+        const user = result[0];
+        const isMatch = await bcrypt.compare(password, user.Password);
+        if (!isMatch) return res.status(401).json({ error: "Invalid Username or Password" });
+
+        // Generate JWT Token
+        const token = jwt.sign(
+            { id: user.User_ID, role: user.Auth_Level, username: user.User_Name }, SECRET_KEY, { expiresIn: '1h' });
+
+        res.json({ token, role: user.Auth_Level, username: user.User_Name });
+
+    });
+});
+
+const authenticate = (req, res, next) => {
+    const token = req.header("Authorization");
+    if (!token) return res.status(403).json({ error: "Unauthorized" });
+  
+    try {
+      const decoded = jwt.verify(token, SECRET_KEY);
+      req.user = decoded;
+      next();
+    } catch (err) {
+      res.status(401).json({ error: "Invalid Token" });
+    }
+};
+
+
+app.get("/home", authenticate, (req, res) => {
+    res.json({ message: `Welcome ${req.user.username}`, role: req.user.role });
 });
 
 app.get('/', (req, res) => {
