@@ -30,8 +30,8 @@ const Home = () => {
     if (!user) {
       navigate("/login"); // Redirect if user not logged in
     }
-    const userRole = localStorage.getItem("userRole");
-    setRole(userRole);
+    const role = localStorage.getItem("role");
+    setRole(role);
   }, [user, navigate]);
 
   return (
@@ -42,6 +42,7 @@ const Home = () => {
         {role === "Admin User" && <p>Admin Menu</p>}
         {role === "Employee" && <p>Employee Menu</p>}
         {role === "HR Manager" && <p>HR Manager Menu</p>}
+        {role === "" && <p>Unauthorized</p>}
         <button className="logout-btn" onClick={handleLogout}>
           Logout
         </button>
