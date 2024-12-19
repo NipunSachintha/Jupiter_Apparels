@@ -13,6 +13,7 @@ const Home = () => {
   // Get user data from Redux store
   const user = useSelector((state) => state.user);
   const [role, setRole] = useState("");
+  //const {role} = useSelector((state) => state.user.role);
 
   // Logout handler
   const handleLogout = () => {
