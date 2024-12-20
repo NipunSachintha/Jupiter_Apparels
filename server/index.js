@@ -1,13 +1,9 @@
-const express = require('express');
-const dotenv = require('dotenv');
-const bcrypt = require('bcryptjs');
-const jwt = require('jsonwebtoken');
-const cors = require('cors');
-const db = require('./config/db');
-
-// here import the routes
-//
-//
+import express from 'express';
+import dotenv from 'dotenv';
+import mysql from 'mysql2';
+import bcrypt from 'bcryptjs';
+import jwt from 'jsonwebtoken';
+import cors from 'cors';
 
 
 dotenv.config();
@@ -15,14 +11,12 @@ const app = express();
 app.use(cors());
 app.use(express.json()); // Parse JSON data
 
-app.use((req,res,next) =>{
-    req.db = db;
-    next();
+const db = mysql.createConnection({
+    host: process.env.DB_HOST,
+    user: process.env.DB_USER,
+    password: process.env.DB_PASS,
+    database: process.env.DB_NAME,
 });
-
-
-// here use the routes
-
 
 const SECRET_KEY = process.env.JWT_SECRET || "supersecretkey";
 
