@@ -12,9 +12,25 @@ const Login = () => {
     e.preventDefault();
     try {
       const res = await axios.post("http://localhost:3000/login", { username, password });
-      localStorage.setItem("token", res.data.token);
-      localStorage.setItem("role", res.data.role);
-      navigate("/home");
+      const { token, role } = res.data;
+
+      // Save token and role to localStorage
+      localStorage.setItem("token", token);
+      localStorage.setItem("role", role);
+      console.log("role",role);
+
+      // Navigate based on user role
+      if (role === "Admin User") {
+        navigate("/admin-dashboard");
+      } else if (role === "HR Manager") {
+        navigate("/HRmanager-dashboard");
+      } else if (role === "Second Manager") {
+        navigate("/Secmanager-dashboard");
+      }else if(role === "Employee"){
+        navigate("/employee-dashboard");
+      }else {
+        navigate("/home"); // Default route if role is unknown
+      }
     } catch (err) {
       setError("Invalid username or password");
     }

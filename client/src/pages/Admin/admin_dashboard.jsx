@@ -6,7 +6,7 @@ import { employeeMenu, adminMenu, hrManagerMenu } from "../../Data/data";
 import { useState } from "react";
 import "./home.css";
 
-const Home = () => {
+const Admin_dashboard = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -122,4 +122,4 @@ const Home = () => {
   );
 };
 
-export default Home;
+export default Admin_dashboard;
