@@ -17,6 +17,7 @@ const Login = () => {
       // Save token and role to localStorage
       localStorage.setItem("token", token);
       localStorage.setItem("role", role);
+
       console.log("role",role);
 
       // Navigate based on user role
