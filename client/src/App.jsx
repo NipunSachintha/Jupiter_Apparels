@@ -19,7 +19,7 @@ function App() {
       <div>
         <BrowserRouter>
         <Routes>
-        <Route path="/login" element={<Login />} />
+        <Route path="/" element={<Login />} />
         <Route element={<ProtectedRoute />}>
           <Route path="/admin-dashboard" element={<Admin_dashboard/>} />
           <Route path="/HRmanager-dashboard" element={<HRmanager_dashboard/>}/>

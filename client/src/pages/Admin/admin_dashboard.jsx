@@ -2,8 +2,6 @@ import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { logout } from "../../redux/features/userSlice";
-import { employeeMenu, adminMenu, hrManagerMenu } from "../../Data/data";
-import { useState } from "react";
 import "./home.css";
 
 const Admin_dashboard = () => {
@@ -12,38 +10,33 @@ const Admin_dashboard = () => {
 
   // Get user data from Redux store
   const user = useSelector((state) => state.user);
-  const [role, setRole] = useState("");
-  //const {role} = useSelector((state) => state.user.role);
+  const role = localStorage.getItem("role") || "";
 
   // Logout handler
   const handleLogout = () => {
     dispatch(logout());
-    navigate("/login"); // Redirect to login page
+    navigate("/"); // Redirect to login page
   };
-
-  // Dynamic Menu
-  let menu;
-  if (role === "Admin User") menu = adminMenu;
-  else if (role === "HR Manager") menu = hrManagerMenu;
-  else if (role === "Employee") menu = employeeMenu;
 
   useEffect(() => {
     if (!user) {
-      navigate("/login"); // Redirect if user not logged in
+      navigate("/"); // Redirect if user not logged in
     }
-    const role = localStorage.getItem("role");
-    setRole(role);
   }, [user, navigate]);
 
   return (
     <div className="container">
-      {/* Dynamic Header */}
-      <header className="header">
-        <h1>Dashboard</h1>
-        {role === "Admin User" && <p>Admin Menu</p>}
-        {role === "Employee" && <p>Employee Menu</p>}
-        {role === "HR Manager" && <p>HR Manager Menu</p>}
-        {role === "" && <p>Unauthorized</p>}
+      <header className="header horizontal-header">
+        <h1 className="dashboard-title">Dashboard</h1>
+        <nav className="header-nav">
+          <button className="nav-btn">Dashboard</button>    
+          <button className="nav-btn">Customize Leave Data</button>
+          <button className="nav-btn">Manage Employees</button>
+          <button className="nav-btn">Manage Users</button>
+          <button className="nav-btn">Manage Custom Fields</button>
+          <button className="nav-btn">Edit Table Attributes</button>
+          <button className="nav-btn">Profile</button>
+        </nav>
         <button className="logout-btn" onClick={handleLogout}>
           Logout
         </button>
@@ -52,13 +45,7 @@ const Admin_dashboard = () => {
       {/* Navigation Menu */}
       <aside className="sidebar">
         <ul className="menu-list">
-          {menu?.map((item) => (
-            <li key={item.name} className="menu-item">
-              <a href={item.path} className="menu-link">
-                <i className={item.icon}></i> {item.name}
-              </a>
-            </li>
-          ))}
+          {/* Placeholder for dynamic menu */}
         </ul>
       </aside>
 
