@@ -8,6 +8,7 @@ const db = require('./config/db');
 // here import the routes
 //
 //
+const authRoutes = require('./routes/authRoute')
 
 
 dotenv.config();
@@ -22,10 +23,11 @@ app.use((req,res,next) =>{
 
 
 // here use the routes
+app.use('/',authRoutes);
 
 
 const SECRET_KEY = process.env.JWT_SECRET || "supersecretkey";
-
+/*
 app.post('/login', (req, res) => {
     const{username, password} = req.body;
     const sql = 'SELECT * FROM user WHERE User_name = ?';
@@ -46,7 +48,7 @@ app.post('/login', (req, res) => {
 
     });
 });
-
+*/
 const authenticate = (req, res, next) => {
     const token = req.header("Authorization");
     if (!token) return res.status(403).json({ error: "Unauthorized" });
@@ -65,9 +67,11 @@ app.get("/home", authenticate, (req, res) => {
     res.json({ message: `Welcome ${req.user.username}`, role: req.user.role });
 });
 
+/*
 app.get('/', (req, res) => {
     res.json("Hello!! This is the backend")
 });
+*/
 
 app.get('/employee', (req, res) => {
     const sql = 'SELECT * FROM employee';
