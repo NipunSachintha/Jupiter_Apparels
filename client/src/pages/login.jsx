@@ -18,8 +18,8 @@ const Login = () => {
       localStorage.setItem("token", token);
       localStorage.setItem("role", role);
 
-      //console.log("role", role);
       console.log("token",token);
+      console.log("role",role);
 
       // Navigate based on user role
       if (role === "Admin User") {

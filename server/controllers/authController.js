@@ -17,6 +17,7 @@ const authController = {
     
         const firstKey = Object.keys(resultData)[0];
         const user = resultData[firstKey].data;
+        console.log("user",user);
 
         if (!resultData[firstKey].success) {
           return res
@@ -33,7 +34,7 @@ const authController = {
         const token = jwt.sign({ username: user.User_Name,authlevel:user.Auth_Level }, process.env.JWT_SECRET, {
           expiresIn: "45m",
         });
-        res.status(200).send({ message: "Login Success", success: true, token });
+        res.status(200).send({ message: "Login Success", success: true, token, role: user.Auth_Level });
       } catch (error) {
         console.log(error);
         res.status(500).send({ message: `Error in login CTRL ${error.message}` });
