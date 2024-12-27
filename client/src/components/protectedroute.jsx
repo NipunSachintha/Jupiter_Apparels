@@ -9,7 +9,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { setUser } from "../redux/features/userSlice";
 //import api from "../axios";
 
-export default function ProtectedRoute({ children,allowedRoles  }) {
+export default function ProtectedRoute({children,allowedRoles}) {
   const dispatch = useDispatch();
   const navigate=useNavigate();
   const { user } = useSelector(state => state.user);
@@ -58,7 +58,7 @@ export default function ProtectedRoute({ children,allowedRoles  }) {
 
   // Handle token case where user is not set yet
   if (localStorage.getItem("token")) {
-    return <p> </p>
+    return <h1> nothing</h1>
     //return  <Spinner/>
   ; // Optional: Show a loading spinner while fetching user
   } else {

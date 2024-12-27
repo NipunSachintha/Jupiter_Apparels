@@ -26,10 +26,10 @@ function App() {
         
     
           <Route path="/admin-dashboard" element={<ProtectedRoute allowedRoles={['Admin User']}><Admin_dashboard/></ProtectedRoute>}/>
-          <Route path="/HRmanager-dashboard" element={<HRmanager_dashboard/>}/>
-          <Route path="/Secmanager-dashboard" element={<SecManager_dashboard/>}/>
-          <Route path="/employee-dashboard" element={<Employee_dashboard/>}/>
-        
+          <Route path="/HRmanager-dashboard" element={<ProtectedRoute allowedRoles={['HR Manager']}><HRmanager_dashboard/></ProtectedRoute>}/>
+          <Route path="/Secmanager-dashboard" element={<ProtectedRoute allowedRoles={['Second Manager']}><SecManager_dashboard/></ProtectedRoute>}/>
+          <Route path="/employee-dashboard" element={<ProtectedRoute allowedRoles={['Employee']}><Employee_dashboard/></ProtectedRoute>}/>
+          
         <Route path="*" element={<h1>404 Not Found</h1>} />
         
         </Routes>
