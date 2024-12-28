@@ -24,6 +24,10 @@ const Employee_dashboard = () => {
         navigate("/"); // Redirect if user not logged in
       }
     }, [user, navigate]);
+  
+    const handleLR = () => {
+      navigate("/leaveRequest"); 
+    };
 
 
 
@@ -33,8 +37,8 @@ const Employee_dashboard = () => {
           <h1 className="dashboard-title">Dashboard</h1>
           <nav className="header-nav">
             <button className="nav-btn">Dashboard</button>
-            <button className="nav-btn">Request Leave</button>
-            <button className="nav-btn">Approve / Reject Leave</button>
+            <button className="nav-btn" onClick={handleLR}>Request Leave</button>
+            <button className="nav-btn" >Approve / Reject Leave </button>
             <button className="nav-btn">Profile</button>
           </nav>
           <button className="logout-btn" onClick={handleLogout}>

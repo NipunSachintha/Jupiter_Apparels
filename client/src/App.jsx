@@ -11,6 +11,7 @@ import Employee_dashboard from './pages/employee/employee_dashboard';
 import Login from './pages/login';
 import ProtectedRoute from './components/protectedroute';
 import { AuthProvider } from '../context/AuthContext';
+import LeaveRequest from './pages/RequestLeave';
 
 
 function App() {
@@ -29,6 +30,7 @@ function App() {
           <Route path="/HRmanager-dashboard" element={<ProtectedRoute allowedRoles={['HR Manager']}><HRmanager_dashboard/></ProtectedRoute>}/>
           <Route path="/Secmanager-dashboard" element={<ProtectedRoute allowedRoles={['Second Manager']}><SecManager_dashboard/></ProtectedRoute>}/>
           <Route path="/employee-dashboard" element={<ProtectedRoute allowedRoles={['Employee']}><Employee_dashboard/></ProtectedRoute>}/>
+          <Route path="/leaveRequest" element={<ProtectedRoute allowedRoles={['Employee','HR Manager','Second Manager']}><LeaveRequest></LeaveRequest></ProtectedRoute>} />
           
         <Route path="*" element={<h1>404 Not Found</h1>} />
         
