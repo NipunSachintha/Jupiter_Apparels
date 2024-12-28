@@ -9,6 +9,7 @@ const db = require('./config/db');
 //
 //
 const authRoutes = require('./routes/authRoute')
+const leaveRequestRoute = require('./routes/LeaveRequestRoute');
 
 
 dotenv.config();
@@ -24,6 +25,7 @@ app.use((req,res,next) =>{
 
 // here use the routes
 app.use('/',authRoutes);
+app.use('/leaveRequest',leaveRequestRoute);
 
 
 const SECRET_KEY = process.env.JWT_SECRET || "supersecretkey";
