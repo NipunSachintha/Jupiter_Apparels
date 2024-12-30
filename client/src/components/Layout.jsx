@@ -59,20 +59,14 @@ const Layout = ({ children }) => {
           setStats(Stats+1);
         }
         
-       
-        
-
-       
-        
       } catch (error) {
         dispatch(hideLoading());
         console.log(error);
       }
     }
     setStatus();
-
-
   }
+  
   const closeMessageShow=()=>{
     setShowMessage('');
   }

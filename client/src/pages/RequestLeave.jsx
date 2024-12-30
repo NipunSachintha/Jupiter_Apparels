@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import Layout from '../components/Layout';
 
 const LeaveRequest = () => {
   const [Leave_Type, setLeaveType] = useState('');
@@ -71,6 +72,7 @@ const LeaveRequest = () => {
   };
 
   return (
+    <Layout>
     <div style={{ padding: '20px', maxWidth: '800px', margin: 'auto' }}>
       {showAlert && (
         <div style={{ backgroundColor: '#f8d7da', color: '#842029', padding: '10px', borderRadius: '5px', marginBottom: '15px' }}>
@@ -171,6 +173,7 @@ const LeaveRequest = () => {
         </table>
       )}
     </div>
+    </Layout>
   );
 };
 
