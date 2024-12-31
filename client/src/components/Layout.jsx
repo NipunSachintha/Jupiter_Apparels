@@ -3,18 +3,24 @@ import { employeeMenu, adminMenu,hrManagerMenu } from '../Data/data';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useSelector,useDispatch } from 'react-redux';
 import { setUser } from '../redux/features/userSlice';
-import { useSnackbar } from 'notistack';
+//import { useSnackbar } from 'notistack';
 import axios from 'axios';
 import { format } from 'date-fns';
-import Modal from 'react-bootstrap/Modal'
+//import Modal from 'react-bootstrap/Modal'
+import { Modal } from 'bootstrap';
 import CustomAlert from './CustomAlert';
-import Button from 'react-bootstrap/Button';
-import notificationIcon from '../../public/notification.png'
-import { hideLoading, showLoading } from "../redux/features/alertSlice";
+//import { Button } from 'react-bootstrap/lib/InputGroup';
+import { Button, InputGroup } from 'react-bootstrap';
+
+//import Button from 'bootstrap';
+
+//import notificationIcon from '../../public/notification.png'
+//import { hideLoading, showLoading } from "../redux/features/alertSlice";
 import api from '../../axios';
 //import './Layout.css'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCoffee } from '@fortawesome/free-solid-svg-icons';
+
+//import { faCoffee } from '@fortawesome/free-solid-svg-icons';
 // Import your GIF and profile picture here
 
 
@@ -25,7 +31,7 @@ const Layout = ({ children }) => {
   const [notifications,setNotifications]=useState([]);
   const [showMessage,setShowMessage]=useState('');
   const [alertMessage, setAlertMessage] = useState(null);
-  const {enqueueSnackbar}=useSnackbar();
+  //const {enqueueSnackbar}=useSnackbar();
   const dispatch = useDispatch();
   const { user } = useSelector(state => state.user);
   const location = useLocation();
@@ -41,7 +47,7 @@ const Layout = ({ children }) => {
     const setStatus=async()=>{
       try {
         
-        dispatch(showLoading());
+        //dispatch(showLoading());
         const res = await api.put(
           `/users/notification`,{
             userId:user.User_ID,
@@ -54,13 +60,13 @@ const Layout = ({ children }) => {
             },
           }
         );
-        dispatch(hideLoading());
+        //dispatch(hideLoading());
         if(res.data.success){
           setStats(Stats+1);
         }
         
       } catch (error) {
-        dispatch(hideLoading());
+        //dispatch(hideLoading());
         console.log(error);
       }
     }
@@ -94,7 +100,7 @@ const Layout = ({ children }) => {
   useEffect(()=>{
     const getTeam=async()=>{
       try {
-        dispatch(showLoading());
+        //dispatch(showLoading());
         
         const res = await api.get(
           `/users/team?employeeId=${user.Employee_ID}`,
@@ -106,7 +112,7 @@ const Layout = ({ children }) => {
           }
         );
         
-        dispatch(hideLoading());
+        //dispatch(hideLoading());
         
         if(res.data.success){
           setHasTeam(true);
@@ -120,7 +126,7 @@ const Layout = ({ children }) => {
         
       } catch (error) {
        
-        dispatch(hideLoading());
+        //dispatch(hideLoading());
         if (error.response && error.response.status === 404) {
           
           setHasTeam(false);
@@ -140,7 +146,7 @@ const Layout = ({ children }) => {
   useEffect(()=>{
     const getNotifications=async()=>{
       try {
-        dispatch(showLoading());
+        //dispatch(showLoading());
         const res = await api.get(
           `/users/notification?userId=${user.User_ID}`,
           
@@ -150,7 +156,7 @@ const Layout = ({ children }) => {
             },
           }
         );
-        dispatch(hideLoading());
+        //dispatch(hideLoading());
         const arraydecoder=(data)=>{
           const dataArray = data;
 
@@ -180,7 +186,7 @@ const Layout = ({ children }) => {
         
       } catch (error) {
        
-        dispatch(hideLoading());
+        //dispatch(hideLoading());
         if (error.response && error.response.status === 404) {
           
           setNotifications([]); // Set to empty array if 404 (no notifications)
