@@ -1,4 +1,4 @@
-const dependantInfoModel = require('../models/dependantInfoModel');
+const dependantInfoModel = require('../models/dependentInfoModel');
 
 const dependantInfoController = {
   
