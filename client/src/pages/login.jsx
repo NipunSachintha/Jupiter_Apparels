@@ -1,98 +1,104 @@
-import React, { useState } from "react";
-import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import React, { useState } from 'react';
+import {  useNavigate,Link} from 'react-router-dom';
+import { Form, Button } from 'react-bootstrap';
+import CustomAlert from '../components/CustomAlert'; 
+import backgroundImage from '../../public/background.png'
+import { useDispatch } from 'react-redux';
+//import { showLoading, hideLoading } from '../redux/features/alertSlice';
+import { useAuth } from '../context/AuthContext';
+import api from '../../axios'; 
+import './Login.css'
+const LoginForm = () => {
 
-const Login = () => {
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
+  const [alertMessage, setAlertMessage] = useState(null); // No need for TypeScript type definition
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+  //const { login } = useAuth();
+  // Define username and password using useState
+  const [username, setUsername] = useState('');  // Initially empty
+  const [password, setPassword] = useState('');  // Initially empty
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  const handleLogin = async (event) => {
+    event.preventDefault(); // Prevent default form submission
+
     try {
-      const res = await axios.post("http://localhost:3000/login", { username, password });
-      const { token, role } = res.data;
+      //dispatch(showLoading());
+      
+      const res = await api.post('/login', {
+        username,
+        password
+    });
+    //dispatch(hideLoading());
+      
 
-      // Save token and role to localStorage
-      localStorage.setItem("token", token);
-      localStorage.setItem("role", role);
-
-      // Navigate based on user role
-      if (role === "Admin User") {
-        navigate("/admin-dashboard");
-      } else if (role === "HR Manager") {
-        navigate("/HRmanager-dashboard");
-      } else if (role === "Second Manager") {
-        navigate("/Secmanager-dashboard");
-      } else if (role === "Employee") {
-        navigate("/employee-dashboard");
+      if (res.data.success) {
+        
+        localStorage.setItem('token', res.data.token);
+        
+        setAlertMessage(res.data.message); // Show success message with custom alert
+        setTimeout(() => {
+          navigate('/dashboard');
+        }, 1000); 
       } else {
-        navigate("/home");
+        
+        setAlertMessage(res.data.message); // Show error message with custom alert
       }
-    } catch (err) {
-      setError("Invalid username or password");
+    } catch (error) {
+      console.error('Error logging in:', error);
+      setAlertMessage('Login failed. Please try again.'); // Show error message with custom alert
     }
   };
 
+ 
+
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gradient-to-br from-blue-500 via-purple-500 to-pink-500">
-      <div className="bg-white shadow-2xl rounded-xl p-8 w-full max-w-md relative overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-br from-pink-300 to-purple-300 opacity-20 rounded-xl"></div>
-        <div className="absolute -top-16 -right-16 w-40 h-40 bg-blue-500 opacity-30 rounded-full blur-3xl"></div>
-        <div className="absolute -bottom-16 -left-16 w-40 h-40 bg-pink-500 opacity-30 rounded-full blur-3xl"></div>
-        <h1 className="text-4xl font-bold text-gray-800 text-center mb-6 animate-fade-in">
-          Welcome Back
-        </h1>
-        <form onSubmit={handleSubmit} className="space-y-6">
-          <div className="relative">
-            <input
+    <div
+      className="container-fluid border"
+      style={{
+        height: '100vh',
+        background: `url(${backgroundImage}) no-repeat center center fixed`,
+        backgroundSize: 'cover',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center'
+      }}
+    >
+      <div
+        className="p-4 rounded shadow bg-white/60 backdrop-blur-md form-container  "
+      >
+        <h2 className="text-3xl font-bold mb-6 text-center text-yellow-900">Jupiter Apparels</h2>
+        <Form >
+          <Form.Group controlId="formUsername" className='flex justify-start items-start flex-col'>
+            <Form.Label className='mb-1 text-yellow-700 font-semibold'>Username</Form.Label>
+            <Form.Control
+            className='w-full p-2 border-b-2 border-gray-300 focus:border-yellow-500 outline-none bg-transparent'
               type="text"
-              placeholder="Username"
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
-              className="w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
+              placeholder="Enter username"
+              value={username}  // Bind the input value to username state
+              onChange={(e) => setUsername(e.target.value)}  // Update the username state when input changes
             />
-            <div className="absolute top-1/2 right-4 transform -translate-y-1/2 text-gray-400">
-              <i className="fas fa-user"></i>
-            </div>
-          </div>
-          <div className="relative">
-            <input
+          </Form.Group>
+          <Form.Group controlId="formPassword">
+            <Form.Label className='mb-1 text-yellow-700 font-semibold' >Password</Form.Label>
+            <Form.Control
+            className='w-full p-2 border-b-2 border-gray-300 focus:border-yellow-500 outline-none bg-transparent'
               type="password"
-              placeholder="Password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              className="w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
+              placeholder="Enter password"
+              value={password}  // Bind the input value to password state
+              onChange={(e) => setPassword(e.target.value)}  // Update the password state when input changes
             />
-            <div className="absolute top-1/2 right-4 transform -translate-y-1/2 text-gray-400">
-              <i className="fas fa-lock"></i>
-            </div>
-          </div>
-          <button
-            type="submit"
-            className="w-full bg-gradient-to-r from-blue-500 to-purple-500 text-white py-3 rounded-lg shadow-md font-semibold hover:from-blue-600 hover:to-purple-600 transition-transform transform hover:scale-105"
-          >
+          </Form.Group>
+          <Button variant="secondary" type="submit" className="w-full py-2 px-4 mt-4 bg-yellow-600 text-white font-semibold rounded-lg hover:bg-yellow-900 transition-colors duration-300" onClick={handleLogin}>
             Login
-          </button>
-        </form>
-        {error && (
-          <p className="mt-4 text-sm text-red-500 text-center animate-shake">
-            {error}
-          </p>
-        )}
-        <p className="mt-6 text-center text-sm text-gray-500">
-          Don’t have an account?{" "}
-          <a
-            href="/register"
-            className="text-blue-600 hover:underline font-semibold transition"
-          >
-            Sign Up
-          </a>
-        </p>
+          </Button>
+        </Form>
       </div>
+      {/* Custom Alert for showing messages */}
+      {alertMessage && (
+        <CustomAlert message={alertMessage} onClose={() => setAlertMessage(null)} />
+      )}
     </div>
   );
 };
 
-export default Login;
+export default LoginForm;
