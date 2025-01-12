@@ -12,6 +12,7 @@ const authRoutes = require('./routes/authRoute')
 const leaveRequestRoute = require('./routes/LeaveRequestRoute');
 const adminRoutes = require('./routes/adminRoutes');
 const dependentInfoRoutes = require('./routes/dependentInfoRoutes');
+const userRoutes = require('./routes/userRoute');
 
 
 dotenv.config();
@@ -24,12 +25,12 @@ app.use((req,res,next) =>{
     next();
 });
 
-
 // here use the routes
 app.use('/',authRoutes);
 app.use('/leaveRequest',leaveRequestRoute);
 app.use('/admin',adminRoutes);
 app.use('/dependent',dependentInfoRoutes);
+app.use('/users', userRoutes);
 
 
 const SECRET_KEY = process.env.JWT_SECRET || "supersecretkey";
