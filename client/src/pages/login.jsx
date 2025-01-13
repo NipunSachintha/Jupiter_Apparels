@@ -34,7 +34,7 @@ const LoginForm = () => {
       if (res.data.success) {
         
         localStorage.setItem('token', res.data.token);
-        
+        localStorage.getItem('token');
         setAlertMessage(res.data.message); // Show success message with custom alert
         setTimeout(() => {
           navigate('/dashboard');
