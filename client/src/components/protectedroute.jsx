@@ -1,67 +1,69 @@
 // src/routes/ProtectedRoute.js
 
-import React, { useEffect } from "react";
-//import Spinner from "./spinner";
-import { Navigate,useNavigate } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { Navigate, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useSelector, useDispatch } from 'react-redux';
-//import { hideLoading, showLoading } from "../redux/features/alertSlice";
 import { setUser } from "../redux/features/userSlice";
-//import api from "../axios";
+import api from '../../axios'
 
-export default function ProtectedRoute({children,allowedRoles}) {
+export default function ProtectedRoute({ children, allowedRoles }) {
   const dispatch = useDispatch();
-  const navigate=useNavigate();
+  const navigate = useNavigate();
   const { user } = useSelector(state => state.user);
+  const [loading, setLoading] = useState(true); // Track loading state
 
-  // Get user function
+  // Fetch user details
   const getUser = async () => {
     try {
-      //dispatch(showLoading());
-      const res = await axios.post('http://localhost:3000/getuserData',
-        { token: localStorage.getItem('token') },
+      const res = await api.post('/getuserData', 
+        {}, 
         {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem('token')}`,
-          },
+          headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
         }
       );
-      
-      //dispatch(hideLoading());
 
       if (res.data.success) {
-        dispatch(setUser(res.data.data));
-        
-        
+        dispatch(setUser(res.data.data)); // Set user in Redux store
       } else {
-        localStorage.clear();
+        localStorage.removeItem('token'); // Only remove token
+        navigate("/login"); // Redirect to login on failure
       }
     } catch (error) {
-      //dispatch(hideLoading());
-      localStorage.clear();
-      console.log(error);
+      console.error("Error fetching user:", error);
+      console.log(localStorage.getItem('token'));
+      localStorage.removeItem('token'); // Handle invalid token
+      navigate("/login"); // Redirect to login on error
+    } finally {
+      setLoading(false); // Stop loading
     }
   };
+
   useEffect(() => {
     if (!user) {
       getUser();
+    } else {
+      setLoading(false); // User already exists, stop loading
     }
   }, [user]);
 
-  // Only perform role checks once user is set
+  // Show loading indicator or spinner if still fetching user
+  if (loading) {
+    return <h1>Loading...</h1>; // Replace with your spinner if needed
+  }
+
+  // Check user roles
   if (user) {
     if (allowedRoles && !allowedRoles.includes(user.Auth_Level)) {
       return <Navigate to="/unauthorized" />;
     }
-    return children; // Proceed if user is authenticated and authorized
+    return children; // Render the protected content
   }
 
-  // Handle token case where user is not set yet
-  if (localStorage.getItem("token")) {
-    return <h1> nothing</h1>
-    //return  <Spinner/>
-  ; // Optional: Show a loading spinner while fetching user
-  } else {
+  // If no token in localStorage, redirect to login
+  if (!localStorage.getItem("token")) {
     return <Navigate to="/login" />;
   }
+
+  return null; // Fallback (shouldn't reach here)
 }

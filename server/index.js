@@ -56,7 +56,7 @@ app.post('/login', (req, res) => {
     });
 });
 */
-const authenticate = (req, res, next) => {
+/*const authenticate = (req, res, next) => {
     const token = req.header("Authorization");
     if (!token) return res.status(403).json({ error: "Unauthorized" });
   
@@ -73,7 +73,7 @@ const authenticate = (req, res, next) => {
 app.get("/home", authenticate, (req, res) => {
     res.json({ message: `Welcome ${req.user.username}`, role: req.user.role });
 });
-
+*/
 /*
 app.get('/', (req, res) => {
     res.json("Hello!! This is the backend")
