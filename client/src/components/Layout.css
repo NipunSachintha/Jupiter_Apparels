@@ -1,5 +1,103 @@
-:topbar{
-    box-shadow: 5px 5px 5px black;
-
-}
-
+.layout-container {
+    display: flex;
+    background-color: #2d3748;
+  }
+  
+  .sidebar {
+    width: 20%;
+    background-color: #1a202c;
+    color: white;
+    min-height: 100vh;
+  }
+  
+  .menu {
+    padding: 16px;
+  }
+  
+  .menu-item {
+    padding: 12px;
+    border-radius: 8px;
+    margin: 8px 0;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+  }
+  
+  .menu-item:hover {
+    background-color: #2b6cb0;
+    color: black;
+  }
+  
+  .menu-item.active {
+    background-color: #63b3ed;
+    color: black;
+  }
+  
+  .menu-icon {
+    margin-right: 8px;
+  }
+  
+  .logout {
+    background-color: #f6e05e;
+    color: black;
+  }
+  
+  .logout:hover {
+    background-color: #ecc94b;
+  }
+  
+  .main-content {
+    width: 80%;
+  }
+  
+  .topbar {
+    background-color: #1a202c;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px;
+  }
+  
+  .greeting {
+    color: white;
+    font-size: 24px;
+  }
+  
+  .notification-button {
+    position: relative;
+  }
+  
+  .notification-icon {
+    height: 40px;
+  }
+  
+  .notification-dot {
+    position: absolute;
+    top: 0;
+    right: 0;
+    height: 12px;
+  }
+  
+  .content-area {
+    padding: 16px;
+    height: calc(100vh - 80px);
+  }
+  
+  .notification-modal .notifications {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  
+  .notification-item {
+    padding: 12px;
+    border-radius: 8px;
+    background-color: #fc8181;
+    display: flex;
+    justify-content: space-between;
+  }
+  
+  .notification-item.read {
+    background-color: #feb2b2;
+  }
+  
