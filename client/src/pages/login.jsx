@@ -6,7 +6,7 @@ import backgroundImage from '../../public/background.png'
 import { useDispatch } from 'react-redux';
 //import { showLoading, hideLoading } from '../redux/features/alertSlice';
 import { useAuth } from '../context/AuthContext';
-import api from '../../axios'; 
+import api from '../axios'; 
 import './Login.css'
 const LoginForm = () => {
 

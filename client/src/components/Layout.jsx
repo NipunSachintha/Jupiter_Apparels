@@ -8,19 +8,13 @@ import { format } from 'date-fns';
 import Modal from 'react-bootstrap/Modal'
 import CustomAlert from './CustomAlert';
 import Button from 'react-bootstrap/Button';
-import notificationIcon from '../../public/notification.png'
+//import notificationIcon from '../../public/notification.png'
 import { hideLoading, showLoading } from "../redux/features/alertSlice";
-import api from '../../axios';
+import api from '../axios';
 import './Layout.css'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCoffee } from '@fortawesome/free-solid-svg-icons';
+//import { faCoffee } from '@fortawesome/free-solid-svg-icons';
 // Import your GIF and profile picture here
-import { faGauge, faUserTie, faHand, faRightFromBracket } from '@fortawesome/free-solid-svg-icons';
-import { library } from '@fortawesome/fontawesome-svg-core';
-
-// Add the icons to the library
-library.add(faGauge, faUserTie, faHand, faRightFromBracket);
-
 
 
 
@@ -252,7 +246,7 @@ const Layout = ({ children }) => {
               );
             })}
             <div className="menu-item  p-3 rounded-md my-3 bg-yellow-100 text-black cursor-pointer hover:bg-yellow-200" onClick={handleLogout}>
-            <FontAwesomeIcon icon="right-from-bracket" className='mx-2' />
+            <FontAwesomeIcon icon="fa-solid fa-right-from-bracket" className='mx-2' />
               <span >Logout</span>
             </div>
           </div>
