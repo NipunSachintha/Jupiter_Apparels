@@ -5,7 +5,7 @@ import { Navigate, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useSelector, useDispatch } from 'react-redux';
 import { setUser } from "../redux/features/userSlice";
-import api from '../../axios'
+import api from '../axios'
 
 export default function ProtectedRoute({ children, allowedRoles }) {
   const dispatch = useDispatch();

@@ -8,12 +8,12 @@ import { format } from 'date-fns';
 import Modal from 'react-bootstrap/Modal'
 import CustomAlert from './CustomAlert';
 import Button from 'react-bootstrap/Button';
-import notificationIcon from '../../public/notification.png'
+//import notificationIcon from '../../public/notification.png'
 import { hideLoading, showLoading } from "../redux/features/alertSlice";
-import api from '../../axios';
+import api from '../axios';
 import './Layout.css'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCoffee } from '@fortawesome/free-solid-svg-icons';
+//import { faCoffee } from '@fortawesome/free-solid-svg-icons';
 // Import your GIF and profile picture here
 
 

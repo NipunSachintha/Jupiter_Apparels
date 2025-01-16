@@ -1,114 +1,81 @@
 const express = require('express');
-const dotenv = require('dotenv');
-const bcrypt = require('bcryptjs');
-const jwt = require('jsonwebtoken');
 const cors = require('cors');
+const dotenv = require('dotenv');
 const db = require('./config/db');
 
-// here import the routes
-//
-//
-const authRoutes = require('./routes/authRoute')
-const leaveRequestRoute = require('./routes/LeaveRequestRoute');
-const adminRoutes = require('./routes/adminRoutes');
-const dependentInfoRoutes = require('./routes/dependentInfoRoutes');
+// Import the h routes
 const userRoutes = require('./routes/userRoute');
+const authRoute = require('./routes/authRoute');
+const employeeTableRoute=require('./routes/employeeTableRoute');
+const adminRoute=require('./routes/adminRoutes');
+const dependantInfoRoute = require('./routes/dependentInfoRoutes');
+const leaveRequestRoute = require('./routes/LeaveRequestRoute');
+const paygradeRoute=require('./routes/PayGradeRoute');
 
 
+
+const approveRejectRequestRoute = require('./routes/Approve_RejectRequestRoute');
+const generateReportRoute = require('./routes/generateReportRoute')
+
+
+// dotenv  config
 dotenv.config();
+
+// rest object
 const app = express();
+
+// Middlewares in here
+//Middleware for cross platform
 app.use(cors());
-app.use(express.json()); // Parse JSON data
+// Middleware to parse incoming JSON requests
+app.use(express.json());
+// Connect to MySQL database
 
-app.use((req,res,next) =>{
-    req.db = db;
-    next();
+/*
+db.connect((err) => {
+  if (err) {
+    console.error('Error connecting to MySQL:', err);
+    return;
+  }
+  console.log('Connected to MySQL database.');
+});
+*/
+
+
+
+// Pass the database connection to routes
+app.use((req, res, next) => {
+  req.db = db; // Attach the db connection to the request object
+  next();
 });
 
-// here use the routes
-app.use('/',authRoutes);
-app.use('/leaveRequest',leaveRequestRoute);
-app.use('/admin',adminRoutes);
-app.use('/dependent',dependentInfoRoutes);
+// Port
+const port = process.env.PORT;
+
+//Route s 
+// User routes
 app.use('/users', userRoutes);
+app.use('/',authRoute);
+app.use('/employeeTable',employeeTableRoute);
+app.use('/dependant',dependantInfoRoute);
+app.use('/leaveRequest',leaveRequestRoute);
 
+app.use('/approve-reject-leaves',approveRejectRequestRoute);
 
-const SECRET_KEY = process.env.JWT_SECRET || "supersecretkey";
-/*
-app.post('/login', (req, res) => {
-    const{username, password} = req.body;
-    const sql = 'SELECT * FROM user WHERE User_name = ?';
+app.use('/genarateReport', generateReportRoute);
+app.use('/paygrade',paygradeRoute);
 
-    db.query(sql, [username], async(err, result) => {
-        if (err) return res.status(500).json({ error: "Database Error" });
-        if (result.length === 0) return res.status(401).json({ error: "Invalid Username or Password" });
+// Admin route
+app.use('/admin',adminRoute);
 
-        const user = result[0];
-        const isMatch = await bcrypt.compare(password, user.Password);
-        if (!isMatch) return res.status(401).json({ error: "Invalid Username or Password" });
-
-        // Generate JWT Token
-        const token = jwt.sign(
-            { id: user.User_ID, role: user.Auth_Level, username: user.User_Name }, SECRET_KEY, { expiresIn: '1h' });
-
-        res.json({ token, role: user.Auth_Level, username: user.User_Name });
-
-    });
-});
-*/
-/*const authenticate = (req, res, next) => {
-    const token = req.header("Authorization");
-    if (!token) return res.status(403).json({ error: "Unauthorized" });
-  
-    try {
-      const decoded = jwt.verify(token, SECRET_KEY);
-      req.user = decoded;
-      next();
-    } catch (err) {
-      res.status(401).json({ error: "Invalid Token" });
-    }
-};
-
-
-app.get("/home", authenticate, (req, res) => {
-    res.json({ message: `Welcome ${req.user.username}`, role: req.user.role });
-});
-*/
-/*
+// Root route (for testing)
 app.get('/', (req, res) => {
-    res.json("Hello!! This is the backend")
-});
-*/
-
-app.get('/employee', (req, res) => {
-    const sql = 'SELECT * FROM employee';
-    db.query(sql, (err, result) => {
-        if(err) return res.json(err);
-        return res.json(result);
-    });
-});
-
-app.get('/custom-fields',(req,res)=>{
-    const q = 'select * from custom_field';
-    db.query(q,(err,data) =>{
-        if(err) return res.json(err);
-        return res.json(data);
-    })
-});
-
-app.post('/custom-fields',(req,res)=>{
-    const q = "insert into custom_field (Field_ID,Field_Name) values (?,?)";
-    const values = [req.body.id,req.body.Name];
-
-    db.query(q,values, (err,data)=>{
-        if (err) return res.json(err);
-        return res.json("Custom field added");
-    })
-});
-
-app.listen(3000, () => {
-  console.log('Server is running on http://localhost:3000');
+  res.send('Welcome to the Express App!');
 });
 
 
- 
+
+// Start the server
+app.listen(port, () => {
+  console.log(`Server running on http://localhost:${port}`);
+});
