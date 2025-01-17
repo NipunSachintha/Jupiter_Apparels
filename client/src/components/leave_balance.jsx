@@ -52,31 +52,42 @@ const LeaveBalanceVisualizer = ({ userId }) => {
   }
 
   const leaveDetails = [
-    { type: 'Annual Leaves', value: leaveData.Remaining_Annual },
-    { type: 'Casual Leaves', value: leaveData.Remaining_Casual },
-    { type: 'No-Pay Leaves', value: leaveData.Remaining_No_Pay },
-    { type: 'Maternity Leaves', value: leaveData.Remaining_Maternity },
-    { type: 'Total Leave Count', value: leaveData.Total_Leave_Count },
+    { type: 'Annual Leaves', value: leaveData.Remaining_Annual, icon: '🌴' },
+    { type: 'Casual Leaves', value: leaveData.Remaining_Casual, icon: '☕' },
+    { type: 'No-Pay Leaves', value: leaveData.Remaining_No_Pay, icon: '💸' },
+    { type: 'Maternity Leaves', value: leaveData.Remaining_Maternity, icon: '🤱' },
+    { type: 'Total Leave Count', value: leaveData.Total_Leave_Count, icon: '🗓️' },
   ];
 
   return (
     <div
       style={{
-        padding: '30px',
-        fontFamily: 'Arial, sans-serif',
-        backgroundColor: '#eef2f7',
-        borderRadius: '15px',
-        maxWidth: '600px',
+        padding: '40px',
+        fontFamily: "'Poppins', sans-serif",
+        background: 'linear-gradient(135deg, #dbeafe, #ffffff)',
+        borderRadius: '20px',
+        maxWidth: '700px',
         margin: 'auto',
-        boxShadow: '0 6px 12px rgba(0, 0, 0, 0.15)',
+        boxShadow: '0 8px 16px rgba(0, 0, 0, 0.2)',
+        
       }}
     >
-      
+      <h2
+        style={{
+          textAlign: 'center',
+          fontSize: '2rem',
+          fontWeight: '700',
+          color: '#1d4ed8',
+          marginBottom: '30px',
+        }}
+      >
+        Leave Balance Overview
+      </h2>
       <div
         style={{
           display: 'flex',
           flexDirection: 'column',
-          gap: '15px',
+          gap: '20px',
         }}
       >
         {leaveDetails.map((leave, index) => (
@@ -87,29 +98,29 @@ const LeaveBalanceVisualizer = ({ userId }) => {
               justifyContent: 'space-between',
               alignItems: 'center',
               padding: '20px',
-              border: '1px solid #ddd',
-              borderRadius: '10px',
-              backgroundColor: '#fff',
-              boxShadow: '0 3px 6px rgba(0, 0, 0, 0.1)',
-              transition: 'transform 0.2s ease, background-color 0.3s ease',
+              border: '1px solid #e0e7ff',
+              borderRadius: '12px',
+              backgroundColor: '#f9fafb',
+              boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
+              transition: 'transform 0.2s ease, box-shadow 0.3s ease',
               cursor: 'pointer',
             }}
             onMouseEnter={(e) => {
-              e.currentTarget.style.transform = 'translateY(-5px)';
-              e.currentTarget.style.backgroundColor = '#f0f4ff';
+              e.currentTarget.style.transform = 'scale(1.02)';
+              e.currentTarget.style.boxShadow = '0 6px 12px rgba(0, 0, 0, 0.15)';
             }}
             onMouseLeave={(e) => {
-              e.currentTarget.style.transform = 'translateY(0)';
-              e.currentTarget.style.backgroundColor = '#fff';
+              e.currentTarget.style.transform = 'scale(1)';
+              e.currentTarget.style.boxShadow = '0 4px 8px rgba(0, 0, 0, 0.1)';
             }}
           >
-            <span style={{ fontWeight: 'bold', color: '#374151', fontSize: '18px' }}>
-              {leave.type}
+            <span style={{ fontSize: '1.5rem', fontWeight: 'bold', color: '#1f2937' }}>
+              {leave.icon} {leave.type}
             </span>
             <span
               style={{
-                fontSize: '18px',
-                fontWeight: '600',
+                fontSize: '1.5rem',
+                fontWeight: '700',
                 color: leave.value > 0 ? '#10b981' : '#ef4444',
               }}
             >
@@ -123,7 +134,7 @@ const LeaveBalanceVisualizer = ({ userId }) => {
           @keyframes fadeIn {
             from {
               opacity: 0;
-              transform: translateY(-10px);
+              transform: translateY(-20px);
             }
             to {
               opacity: 1;
