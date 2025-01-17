@@ -271,6 +271,34 @@ const LeaveRequestController={
         }
     },
     
+    getallleavebalance: async (req, res) => {
+      try {
+          const user_id = req.query.User_ID; 
+          
+          if (!user_id) {
+              return res.status(400).send({ message: "User ID is required", success: false });
+          }
+  
+          const leave_balance_details = await new Promise((resolve, reject) => {
+              leaveRequestModel.getleavebalance(user_id, (err, result) => {
+                  if (err) {
+                      reject(err);
+                  } else {
+                      resolve(result);
+                  }
+              });
+          });
+  
+          if (!leave_balance_details) {
+              return res.status(404).send({ message: "You have no leaves left", success: false });
+          } else {
+              return res.status(200).send({ success: true, data: leave_balance_details });
+          }
+      } catch (error) {
+          console.log(error);
+          return res.status(500).send({ message: "Server error", success: false, error: error.message });
+      }
+  },
     
   
 

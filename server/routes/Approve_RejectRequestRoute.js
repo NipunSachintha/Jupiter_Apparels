@@ -8,6 +8,6 @@ router.get('/manage_leaves', authMiddleware(["HR Manager","Second Manager","Empl
 router.put('/approve', authMiddleware(["HR Manager","Second Manager","Employee"]),LeaveRequestController.setRequestStatusApprove);
 router.post('/reject', authMiddleware(["HR Manager","Second Manager","Employee"]),LeaveRequestController.setRequestStatusReject);
 router.get('/getallleaves', authMiddleware(["HR Manager","Second Manager","Employee"]),LeaveRequestController.getallemployeeleaves);
-
+router.get('/get-leave-balance', authMiddleware(["HR Manager","Second Manager","Employee"]),LeaveRequestController.getallleavebalance);
 
 module.exports = router;
