@@ -141,9 +141,19 @@ const LeaveRequestModel = {
       callback(null, results[0].result);
     });
   },
-  
-  
 
+  getleavebalance: (User_ID, callback) => {
+    const query = 'SELECT db_get_employee_leave_balance_details(?) AS result';
+    
+    db.query(query, [User_ID], (err, result) => {
+      if (err) {
+        return callback(err);
+      }
+      callback(null, result);
+    });
+  },
+  
+  
 
   
   /*
