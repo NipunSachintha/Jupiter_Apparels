@@ -8,6 +8,8 @@ const Dashboard = () => {
   const { user } = useSelector((state) => state.user);
   const userId = user.User_ID;
 
+  const isAdmin = user.Auth_Level == 'Admin User';
+
   return (
     <Layout
       children={
@@ -36,7 +38,8 @@ const Dashboard = () => {
           </div>
 
           {/* Leave Balance Section */}
-          <div
+          {!isAdmin && (
+            <div
             style={{
               backgroundColor: '#ffffff', // White background
               padding: '5px',
@@ -44,11 +47,12 @@ const Dashboard = () => {
               boxShadow: '0px 4px 6px rgba(0, 0, 0, 0.1)', // Subtle shadow for depth
             }}
           >
-            <h2 style={{ fontSize: '1.3rem', fontWeight: '600', color: '#111827', marginBottom: '20px' }}>
-              Remaining Leave Balance
-            </h2>
+            
             <LeaveBalanceVisualizer userId={userId} />
           </div>
+
+          )}
+          
         </div>
       }
     />
