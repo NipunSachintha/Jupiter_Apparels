@@ -16,7 +16,7 @@ const Dashboard = () => {
           <div
             style={{
               backgroundColor: '#dbeafe', // Light blue background
-              padding: '40px',
+              padding: '120px',
               borderRadius: '8px',
               textAlign: 'center',
               marginBottom: '30px', // Space between the banner and next section
@@ -24,10 +24,11 @@ const Dashboard = () => {
           >
             <h1
               style={{
-                fontSize: '2.5rem',
+                fontSize: '4rem',
                 fontWeight: 'bold',
                 color: '#111827', // Dark text color
                 margin: 0,
+                
               }}
             >
               Welcome to Jupiter Apparels
@@ -38,12 +39,12 @@ const Dashboard = () => {
           <div
             style={{
               backgroundColor: '#ffffff', // White background
-              padding: '20px',
+              padding: '5px',
               borderRadius: '8px',
               boxShadow: '0px 4px 6px rgba(0, 0, 0, 0.1)', // Subtle shadow for depth
             }}
           >
-            <h2 style={{ fontSize: '1.5rem', fontWeight: '600', color: '#111827', marginBottom: '20px' }}>
+            <h2 style={{ fontSize: '1.3rem', fontWeight: '600', color: '#111827', marginBottom: '20px' }}>
               Remaining Leave Balance
             </h2>
             <LeaveBalanceVisualizer userId={userId} />
