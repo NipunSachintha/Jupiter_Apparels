@@ -1,2 +1,2 @@
 # MyProject1
-This is a simple HRMS 
+This is a simple HRMS for a hypothetical organization called Jupiter Apperals.
